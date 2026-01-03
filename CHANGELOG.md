@@ -7,6 +7,257 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 🏷️ [0.5.9] - 2026-01-03
+
+> [!IMPORTANT]
+> ### 🎮 Massive Feature Release: Phases 6-25
+> This release introduces **20 new roadmap phases** with comprehensive automation handlers for AI, GAS, Audio, Character, Combat, Game Framework, Sessions, Level Structure, Volumes, and Navigation systems. Over **2,855 new automation actions** across the complete game development pipeline.
+
+### ✨ Added
+
+<details>
+<summary><b>🧭 Phase 25: Navigation System Management</b> (<code>ec3d4a4</code>)</summary>
+
+New `manage_navigation` tool for comprehensive NavMesh and pathfinding control:
+
+| Action | Description |
+|--------|-------------|
+| `configure_nav_mesh` | Configure NavMesh build settings (agent radius, height, cell size) |
+| `set_nav_agent_properties` | Set navigation agent properties for different agent types |
+| `create_nav_modifier_volume` | Create navigation modifier volumes with custom area classes |
+| `configure_nav_link` | Configure smart navigation links between disconnected areas |
+| `set_nav_mesh_bounds` | Set NavMesh bounds volume size and location |
+| `rebuild_navigation` | Trigger full navigation rebuild for the level |
+| `get_nav_mesh_info` | Get current NavMesh configuration and statistics |
+
+**Files Added:**
+- `src/tools/handlers/navigation-handlers.ts` - TypeScript handlers for navigation actions
+- `plugins/.../McpAutomationBridge_NavigationHandlers.cpp` - C++ native implementation
+
+</details>
+
+<details>
+<summary><b>📦 Phase 24: Volumes & Zones Management</b> (<code>2510e57</code>)</summary>
+
+New `manage_volumes` tool supporting 18 actions for creating and configuring various volume actors:
+
+| Volume Type | Description |
+|-------------|-------------|
+| **Trigger Volumes** | `ATriggerVolume`, `ABlockingVolume`, `AKillZVolume` |
+| **Gameplay Volumes** | `APainCausingVolume`, `APhysicsVolume`, `AGravityVolume` |
+| **Audio Volumes** | `AAudioVolume` with reverb/ambient zone settings |
+| **Rendering Volumes** | `APostProcessVolume`, `ALightmassImportanceVolume` |
+| **Navigation Volumes** | `ANavMeshBoundsVolume`, `ANavModifierVolume` |
+| **Streaming Volumes** | `ALevelStreamingVolume` for level loading |
+
+**Key Actions:**
+- `create_trigger_volume`, `create_blocking_volume`, `create_audio_volume`
+- `configure_volume_bounds`, `set_volume_collision`, `toggle_volume_enabled`
+- `create_kill_zone`, `create_physics_volume`, `create_streaming_volume`
+
+</details>
+
+<details>
+<summary><b>🏗️ Phase 23: Level Structure Management</b> (<code>d61531e</code>)</summary>
+
+New `manage_level_structure` tool for comprehensive level organization:
+
+| Action | Description |
+|--------|-------------|
+| `create_level` | Create new levels (persistent or streaming) |
+| `configure_world_partition` | Configure World Partition settings |
+| `manage_data_layers` | Create/configure data layers for streaming |
+| `create_sublevel` | Create streaming sublevels |
+| `configure_hlod` | Configure Hierarchical LOD settings |
+| `set_level_bounds` | Configure level bounds and world origin |
+| `create_level_blueprint` | Create level blueprint with events |
+
+</details>
+
+<details>
+<summary><b>🎮 Phase 22: Sessions & Multiplayer Management</b> (<code>2213f71</code>)</summary>
+
+New `manage_sessions` tool for multiplayer and local play configuration:
+
+| Category | Actions |
+|----------|---------|
+| **Local Sessions** | `configure_local_session`, `set_session_interface` |
+| **Split-Screen** | `configure_split_screen`, `manage_local_players` |
+| **LAN Play** | `configure_lan`, `host_lan_server`, `join_lan_server` |
+| **Voice Chat** | `configure_voice`, `manage_voice_channels`, `mute_player` |
+
+</details>
+
+<details>
+<summary><b>🎯 Phase 21: Game Framework Management</b> (<code>28eb16d</code>)</summary>
+
+New `manage_game_framework` tool for core game architecture:
+
+| Component | Actions |
+|-----------|---------|
+| **GameMode** | `create_game_mode`, `configure_game_mode` |
+| **GameState** | `create_game_state`, `configure_match_state` |
+| **PlayerController** | `create_player_controller`, `configure_input` |
+| **PlayerState** | `create_player_state`, `configure_player_data` |
+| **Match Flow** | `start_match`, `end_match`, `restart_match` |
+
+</details>
+
+<details>
+<summary><b>🔧 Phases 6-20: Complete Game Systems</b> (<code>ccf699d</code>)</summary>
+
+Massive implementation covering:
+
+| Phase | Tool | Key Features |
+|-------|------|--------------|
+| **6: Skeleton** | `manage_skeleton` | Bone manipulation, sockets, physics assets |
+| **7: Material Authoring** | `manage_material_authoring` | Material expressions, layers, landscape materials |
+| **8: Texture** | `manage_texture` | Texture creation, compression, virtual texturing |
+| **9: Animation Authoring** | `manage_animation_authoring` | AnimBP, Control Rig, IK Rig, Retargeter |
+| **10: Niagara Authoring** | `manage_niagara_authoring` | Niagara systems, modules, parameters |
+| **11: GAS** | `manage_gas` | Abilities, Effects, Attributes, Tags |
+| **12: Character** | `manage_character` | Character creation, movement, locomotion |
+| **13: Combat** | `manage_combat` | Weapons, projectiles, damage, melee |
+| **14: AI Advanced** | `manage_ai` | EQS, Perception, State Trees, Smart Objects |
+| **15: Inventory** | `manage_inventory` | Items, equipment, loot, crafting |
+| **16: Interaction** | `manage_interaction` | Interactables, destructibles, triggers |
+| **17: Widget Authoring** | `manage_widget_authoring` | UMG widgets, layout, styling |
+| **18: Networking** | `manage_networking` | Replication, RPCs, prediction |
+| **19: Audio Authoring** | `manage_audio_authoring` | MetaSounds, sound classes, dialogue |
+| **20: Asset Workflow** | `manage_asset_workflow` | Asset pipelines, batch operations |
+
+</details>
+
+### 🔧 Changed
+
+<details>
+<summary><b>Build System Improvements</b> (<code>0ef936e</code>)</summary>
+
+- Replaced unbounded recursive directory search with bounded depth search (3-4 levels)
+- Added `SearchDirectoryBounded()` helper with configurable max depth
+- Significantly improves build time on systems with large plugin directories
+
+</details>
+
+<details>
+<summary><b>Automation Handler Enhancements</b> (<code>fb1cc2f</code>)</summary>
+
+- Enhanced property management across all automation handlers
+- Improved response messages with more detailed status information
+- Better error handling and validation for automation requests
+
+</details>
+
+<details>
+<summary><b>McpConnectionManager Improvements</b> (<code>2fac036</code>)</summary>
+
+- Added `IsReconnectPending()` method for connection state tracking
+- Improved state machine creation with enhanced error handling
+- Updated IK setup process to use automation bridge properly
+
+</details>
+
+### 📊 Statistics
+
+- **New Tools:** 15+
+- **New Actions:** 2,855+
+- **New C++ Handler Files:** 20+
+- **Roadmap Phases Completed:** 6-25 (20 phases)
+
+---
+
+## 🏷️ [0.5.8] - 2026-01-02
+
+> [!IMPORTANT]
+> ### 🛡️ Security Release
+> This release includes a **critical security fix** for path traversal vulnerability in the INI reader and improvements to material graph parameter handling.
+
+### 🛡️ Security
+
+<details>
+<summary><b>🔒 Fix Path Traversal in INI Reader</b> (<a href="https://github.com/ChiR24/Unreal_mcp/pull/48">#48</a>)</summary>
+
+| Aspect | Details |
+|--------|---------|
+| **Severity** | 🚨 CRITICAL |
+| **Vulnerability** | Path traversal in `getProjectSetting()` |
+| **Impact** | Attackers could access arbitrary files by injecting `../` sequences into the category parameter |
+| **Fix** | Added strict regex validation `^[a-zA-Z0-9_-]+$` to `cleanCategory` in `src/utils/ini-reader.ts` |
+| **Tests** | Added unit tests in `src/utils/ini-reader.test.ts` |
+
+</details>
+
+### 🛠️ Fixed
+
+<details>
+<summary><b>Material Graph Parameter Mapping</b> (<a href="https://github.com/ChiR24/Unreal_mcp/pull/50">#50</a>)</summary>
+
+Fixed parameter name mismatch for `connect_material_pins` action:
+
+| Schema Parameter | C++ Handler Expected | Status |
+|------------------|---------------------|--------|
+| `fromNodeId` | `sourceNodeId` | ✅ Auto-mapped |
+| `toNodeId` | `targetNodeId` | ✅ Auto-mapped |
+| `toPin` | `inputName` | ✅ Auto-mapped |
+
+**Changes:**
+- Added automatic parameter mapping in `handleMaterialGraph` to support both formats
+- Added proper type guards for parameter mapping instead of `as string`
+- Added `[Deprecated]` tags to old parameter descriptions
+- Use case-insensitive action comparison with `toLowerCase()`
+
+Closes [#49](https://github.com/ChiR24/Unreal_mcp/issues/49)
+
+</details>
+
+---
+
+## 🏷️ [0.5.7] - 2026-01-01
+
+> [!IMPORTANT]
+> ### 🛡️ Security Release
+> This release includes a **critical security fix** for Python execution bypass vulnerability and multiple dependency updates.
+
+### 🛡️ Security
+
+<details>
+<summary><b>🔒 Fix Python Execution Bypass</b> (<code>e16dab0</code>)</summary>
+
+| Aspect | Details |
+|--------|---------|
+| **Severity** | 🚨 CRITICAL |
+| **Vulnerability** | Python execution restriction bypass |
+| **Impact** | Attackers could execute arbitrary Python code by using tabs instead of spaces after the `py` command (e.g., `py\timport os`) |
+| **Fix** | Updated `CommandValidator` to use regex `^py(?:\s|$)` which correctly matches `py` followed by any whitespace character or end of string |
+| **Tests** | Added comprehensive tests in `src/utils/command-validator.test.ts` covering the bypass case |
+
+</details>
+
+### 🔧 Changed
+
+<details>
+<summary><b>Release Process Improvements</b> (<code>ba6b747</code>)</summary>
+
+- Removed automatic git tag creation from release workflow
+- Updated release summary instructions for manual tag management
+
+</details>
+
+### 🔄 Dependencies
+
+<details>
+<summary><b>Package Updates</b></summary>
+
+| Package | Update | Type |
+|---------|--------|------|
+| `zod` | 4.2.1 → 4.3.4 | Minor |
+| `qs` | 6.14.0 → 6.14.1 | Patch (indirect) |
+| `github/codeql-action` | 3.28.1 → 4.31.9 | Major |
+
+</details>
+
+---
+
 ## 🏷️ [0.5.6] - 2025-12-30
 
 > [!IMPORTANT]

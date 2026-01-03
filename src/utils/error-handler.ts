@@ -1,5 +1,15 @@
 import { Logger } from './logger.js';
-import { BaseToolResponse } from '../types/tool-types.js';
+
+/**
+ * Base tool response interface for error handling
+ */
+interface BaseToolResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  retriable?: boolean;
+  scope?: string;
+}
 
 const log = new Logger('ErrorHandler');
 

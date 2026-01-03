@@ -1,7 +1,30 @@
 import { UnrealBridge } from '../unreal-bridge.js';
 import { AutomationBridge } from '../automation/index.js';
 import { Logger } from '../utils/logger.js';
-import { lookupPropertyMetadata, normalizeDictionaryKey, PropertyDictionaryEntry } from './property-dictionary.js';
+
+/**
+ * Property dictionary entry interface (inline definition after property-dictionary.ts removal)
+ */
+export interface PropertyDictionaryEntry {
+  category?: string;
+  description?: string;
+  displayName?: string;
+}
+
+/**
+ * Normalize a property key for dictionary lookup
+ */
+function normalizeDictionaryKey(key: string): string {
+  return key.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * Lookup property metadata - returns undefined since the dictionary was removed
+ * The native C++ handler provides metadata directly now.
+ */
+function lookupPropertyMetadata(_name: string): PropertyDictionaryEntry | undefined {
+  return undefined;
+}
 
 export interface ObjectSummary {
   name?: string;
